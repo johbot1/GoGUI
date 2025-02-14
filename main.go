@@ -21,15 +21,24 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	title := "{TITLE}"
 
 	// Calculate the width and height of the title text for centering
-	textWidth := len(title) * 16 // Approximate width of each character in default font size
-	textHeight := 16             // Default height of the text (using a 16px height for each character)
+	// Using a smaller multiplier to simulate larger text
+	charWidth := 16  // Default width of the character
+	charHeight := 16 // Default height of the character
+
+	// Simulate a larger font size by scaling the width and height of characters
+	scaleFactor := 5 // Increase this value to make the text larger
+	textWidth := len(title) * charWidth * scaleFactor
+	textHeight := charHeight * scaleFactor
 
 	// Center the title on the screen
 	x := (screenWidth - textWidth) / 2
 	y := (screenHeight - textHeight) / 2
 
-	// Draw the title text in the center with larger size
-	ebitenutil.DebugPrintAt(screen, title, x, y)
+	// Draw the title text in the center with the simulated larger font
+	for i := 0; i < len(title); i++ {
+		// Multiply each character's position to simulate enlargement
+		ebitenutil.DebugPrintAt(screen, string(title[i]), x+(i*charWidth*scaleFactor), y)
+	}
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
