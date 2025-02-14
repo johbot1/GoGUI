@@ -2,6 +2,11 @@ module GoGUI
 
 go 1.23
 
+//What is the go.mod file?
+//The go.mod file is a configuration file for Go projects.
+//It tells Go which packages to use and how to manage their dependencies.
+//Indirect imports fetch packages from remote repositories, rather than installing them locally.
+
 require github.com/hajimehoshi/ebiten/v2 v2.8.6
 
 require (
