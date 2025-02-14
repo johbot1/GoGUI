@@ -3,52 +3,46 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"image/color"
 	"log"
-)
-
-var (
-	text = "Click the button!"
 )
 
 type Game struct{}
 
 func (g *Game) Update() error {
-	// Check if the mouse was clicked
-	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		mouseX, mouseY := ebiten.CursorPosition()
-		// Check if the click is within the button area
-		if mouseX > 100 && mouseX < 300 && mouseY > 200 && mouseY < 250 {
-			text = "Button clicked!"
-		}
-	}
+	// Game logic will go here later
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// Set background color (light gray in this case)
-	screen.Fill(color.RGBA{R: 200, G: 200, B: 200, A: 255})
+	// Get the screen width and height for centering the text
+	screenWidth, screenHeight := screen.Size()
 
-	// Draw the button (a simple rectangle)
-	buttonColor := color.RGBA{R: 51, G: 153, B: 229, A: 255}
-	ebitenutil.DrawRect(screen, 100, 200, 200, 50, buttonColor)
+	// Title text
+	title := "{TITLE}"
 
-	// Draw button text
-	ebitenutil.DebugPrintAt(screen, "Click me!", 150, 215)
+	// Calculate the width and height of the title text for centering
+	textWidth := len(title) * 16 // Approximate width of each character in default font size
+	textHeight := 16             // Default height of the text (using a 16px height for each character)
 
-	// Draw the text at the top
-	ebitenutil.DebugPrintAt(screen, text, 150, 100)
+	// Center the title on the screen
+	x := (screenWidth - textWidth) / 2
+	y := (screenHeight - textHeight) / 2
+
+	// Draw the title text in the center with larger size
+	ebitenutil.DebugPrintAt(screen, title, x, y)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	// Return the screen dimensions (800x600)
+	// Set the window size, 800x600 as a default
 	return 800, 600
 }
 
 func main() {
-	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("Hello, World!")
-	if err := ebiten.RunGame(&Game{}); err != nil {
+	// Create the game object
+	game := &Game{}
+
+	// Initialize the game and set the window title to "{TITLE}"
+	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
 }

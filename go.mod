@@ -7,7 +7,10 @@ go 1.23
 //It tells Go which packages to use and how to manage their dependencies.
 //Indirect imports fetch packages from remote repositories, rather than installing them locally.
 
-require github.com/hajimehoshi/ebiten/v2 v2.8.6
+require (
+	github.com/hajimehoshi/ebiten/v2 v2.8.6
+	golang.org/x/image v0.24.0
+)
 
 require (
 	github.com/ebitengine/gomobile v0.0.0-20250209143333-6071a2a2351c // indirect
