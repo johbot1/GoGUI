@@ -18,7 +18,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screenWidth, screenHeight := screen.Size()
 
 	// Title text
-	title := "{TITLE}"
+	title := "PENIS"
 
 	// Calculate the width and height of the title text for centering
 	// Using a smaller multiplier to simulate larger text
