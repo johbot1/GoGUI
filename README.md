@@ -22,42 +22,49 @@ Golang v.1.23.6 or higher
 # Overview:
 
 ## Section 1: The Options Screen
-    Display Particle Type Options:
-        Create a menu with options for circle, square, and star particles.
-        Allow user to select one particle type.
 
-    Color Picker/Selection:
-        Offer a selection of predefined colors (e.g., red, green, blue, yellow).
-        Allow the user to select one color for the particles.
+### 🔹 Dice Type Selection:
 
-    Speed Control:
-        Provide options for slow, medium, and fast speeds.
-        Implement slider or radio buttons for speed selection.
+    Provide six dice options on the left side of the screen:
+        🎲 1d4
+        🎲 1d6
+        🎲 1d8
+        🎲 1d10
+        🎲 1d20
+        🎲 1d100
+    Only one dice type can be selected at a time.
 
-    Start Animation Button:
-        Create a button that, when clicked, transitions to the visual screen (animation).
+### 🔹 Color Scheme Selection:
 
-## Section 2: Visual Screen
+    On the right side, allow the user to select one of three line color options:
+        🟢 Green Lines
+        🔵 Blue Lines
+        🔴 Red Lines
+    The background remains black at all times.
 
-    Particle Emitter:
-        Emit particles from the center of the screen or on mouse click.
-        Create a loop to continuously emit particles based on the selected speed.
+### 🔹 Roll Button:
 
-    Particle Movement:
-        Make particles move in random directions (with slight speed variations).
-        Implement smooth animation for particles’ movement.
+    A large rectangular button below the dice labeled "ROLL".
+    Clicking this button will trigger the dice roll animation and display the result.
 
-    Particle Properties:
-        Particles should have random sizes and fade out as they move.
-        Set a lifetime for each particle, after which it disappears.
+## Section 2: The Visual Screen
 
-    Interactive Particle Generation (optional):
-        Allow particles to be generated on mouse click or mouse movement.
-        Adjust emission speed based on the speed option selected on the first screen.
+### 🎲 Dice Representation:
 
-    Looping:
-        Particles should keep emitting until the user presses a key to restart or exit.
+    The dice is drawn in a simple wireframe style (blocky, geometric).
+    The selected dice type determines the shape.
 
+### 🎲 Rolling Animation:
 
-## Section 3: Feedback
-(To be filled in after receiving feedback.)
+    When the roll button is clicked:
+        The dice wobbles or rotates slightly before stopping.
+        A random result is selected and displayed above the dice.
+        The dice momentarily fades out and back in to indicate the roll is finished.
+
+### 🎲 Result Display:
+
+    The rolled number appears above the dice in large, clear text.
+
+## Section 3: Fixes / Feedback
+
+(This section will be filled in after receiving feedback.)
