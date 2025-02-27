@@ -1,14 +1,12 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image/color"
 	"log"
-	"math/big"
 )
 
 type Game struct {
@@ -25,20 +23,9 @@ func (g *Game) Update() error {
 	return nil
 }
 
-// RollDice generates a cryptographically secure random number for the dice roll
-func RollDice(sides int) int {
-	n, err := rand.Int(rand.Reader, big.NewInt(int64(sides)))
-	if err != nil {
-		// Fallback: Return max value in case of error (should rarely happen)
-		return sides
-	}
-	return int(n.Int64()) + 1
-}
-
 // DrawDiceShape dynamically creates different dice outlines
 func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidth float32, color color.Color) {
-	scaleFactor := float32(1.5)
-	scaledSize := size * scaleFactor
+	scaledSize := size * ScaleFactor
 	switch sides {
 	case 4: // d4 - Triangle
 		DrawTriangle(screen, x, y, scaledSize, lineWidth, color)
@@ -58,22 +45,17 @@ func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidt
 func (g *Game) Draw(screen *ebiten.Image) {
 	// Screen dimensions
 	screenWidth, screenHeight := screen.Size()
-	// Draw dice type buttons on the left
-	buttonWidth, buttonHeight := 120, 40
-	buttonX := float32(20)
 	//Dice sizing parameters
 	diceX := float32(screenWidth)/2 - 180
 	diceY := float32(screenHeight)/2 - 200
 	diceSize := float32(screenWidth) * 0.3
 	lineWidth := float32(screenWidth) * 0.01
-	// Labels for the buttons (dice options)
-	buttons := []string{"1d4", "1d6", "1d8", "1d10", "1d20", "1d100"}
 
 	// Draw the buttons
-	for i, buttonText := range buttons {
+	for i, buttonText := range Buttons {
 		buttonY := float32(50 + i*50)
-		vector.DrawFilledRect(screen, buttonX, buttonY, float32(buttonWidth), float32(buttonHeight), ButtonColor, true)
-		ebitenutil.DebugPrintAt(screen, buttonText, int(buttonX+20), int(buttonY+10))
+		vector.DrawFilledRect(screen, ButtonX, buttonY, float32(ButtonWidth), float32(ButtonHeight), ButtonColor, true)
+		ebitenutil.DebugPrintAt(screen, buttonText, int(ButtonX+20), int(buttonY+10))
 	}
 	//Title shown at the top of the screen
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
