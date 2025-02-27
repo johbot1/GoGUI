@@ -48,6 +48,7 @@ func drawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color colo
 	vector.StrokeLine(screen, x, y+size/2, x+size/4, y, lineWidth, color, true)
 }
 
+// Processes the mouse input logic for whenever the user clicks one of the buttons
 func (g *Game) diceSwitchingMouseLogic(mouseX, mouseY int) {
 	if mouseX < 150 {
 		switch {
