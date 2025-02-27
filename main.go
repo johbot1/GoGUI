@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image/color"
 	"log"
 	"math/big"
@@ -71,7 +72,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Draw the buttons
 	for i, buttonText := range buttons {
 		buttonY := float32(50 + i*50)
-		ebitenutil.DrawRect(screen, float64(buttonX), float64(buttonY), float64(buttonWidth), float64(buttonHeight), color.RGBA{0, 0, 0, 255})
+		vector.DrawFilledRect(screen, buttonX, buttonY, float32(buttonWidth), float32(buttonHeight), ButtonColor, true)
 		ebitenutil.DebugPrintAt(screen, buttonText, int(buttonX+20), int(buttonY+10))
 	}
 	//Title shown at the top of the screen
