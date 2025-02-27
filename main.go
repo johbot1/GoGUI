@@ -61,6 +61,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	//Draw the Roll Button
 	vector.DrawFilledRect(screen, 330, 235, 150, 100, DiceRollingButtonColor, true)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll"), 390, 275)
 	//Title shown at the top of the screen
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
 	// Show the current dice selection (below buttons)
