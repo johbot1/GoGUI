@@ -11,10 +11,29 @@ import (
 	"math/big"
 )
 
-type Game struct{}
+type Game struct {
+	selectedDice int // Holds the current dice selection (1d4, 1d6, etc.)
+}
 
 func (g *Game) Update() error {
 	// Game logic will go here later
+	// Handling input (button clicks)
+	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		mouseX, mouseY := ebiten.CursorPosition()
+		if mouseX < 150 && mouseY > 50 && mouseY < 90 { // 1d4 button
+			g.selectedDice = 4
+		} else if mouseX < 150 && mouseY > 100 && mouseY < 140 { // 1d6 button
+			g.selectedDice = 6
+		} else if mouseX < 150 && mouseY > 150 && mouseY < 190 { // 1d8 button
+			g.selectedDice = 8
+		} else if mouseX < 150 && mouseY > 200 && mouseY < 240 { // 1d10 button
+			g.selectedDice = 10
+		} else if mouseX < 150 && mouseY > 250 && mouseY < 290 { // 1d20 button
+			g.selectedDice = 20
+		} else if mouseX < 150 && mouseY > 300 && mouseY < 340 { // 1d100 button
+			g.selectedDice = 100
+		}
+	}
 	return nil
 }
 
@@ -30,16 +49,16 @@ func RollDice(sides int) int {
 
 // DrawDiceShape dynamically creates different dice outlines
 func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidth float32, color color.Color) {
-	scaleFactor := float32(1.5) // Adjust this for larger dice (Try values like 2.0 or 3.0)
-	size *= scaleFactor         // Scale up the dice size
+	scaleFactor := float32(1.5)
+	size *= scaleFactor
 
 	switch sides {
-	case 3: // d3 - Triangle
+	case 4: // d4 - Triangle
 		vector.StrokeLine(screen, x, y+size, x+size/2, y, lineWidth, color, true)
 		vector.StrokeLine(screen, x+size/2, y, x+size, y+size, lineWidth, color, true)
 		vector.StrokeLine(screen, x+size, y+size, x, y+size, lineWidth, color, true)
 
-	case 4: // d4 - Square
+	case 6: // d6 - Square
 		vector.StrokeLine(screen, x, y, x+size, y, lineWidth, color, true)
 		vector.StrokeLine(screen, x, y+size, x+size, y+size, lineWidth, color, true)
 		vector.StrokeLine(screen, x, y, x, y+size, lineWidth, color, true)
@@ -72,35 +91,46 @@ func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidt
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// Get the screen width and height for centering the text
+	// Screen dimensions
 	screenWidth, screenHeight := screen.Size()
+	// Draw dice type buttons on the left
+	buttonWidth, buttonHeight := 120, 40
+	buttonX := float32(20)
+	//Dice sizing parameters
+	diceX := float32(screenWidth)/2 - 180
+	diceY := float32(screenHeight)/2 - 200
+	diceSize := float32(screenWidth) * 0.3
+	lineWidth := float32(screenWidth) * 0.01
+	// Labels for the buttons (dice options)
+	buttons := []string{"1d4", "1d6", "1d8", "1d10", "1d20", "1d100"}
 
-	// Title text
-	title := "Dice Roll Dice"
+	// Draw the buttons
+	for i, buttonText := range buttons {
+		buttonY := float32(50 + i*50)
+		ebitenutil.DrawRect(screen, float64(buttonX), float64(buttonY), float64(buttonWidth), float64(buttonHeight), color.RGBA{0, 0, 0, 255})
+		ebitenutil.DebugPrintAt(screen, buttonText, int(buttonX+20), int(buttonY+10))
+	}
+	//Title shown at the top of the screen
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
+	// Show the current dice selection (below buttons)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), int(screenWidth/2-50), int(screenHeight-50))
 
-	// Center the title
-	ebitenutil.DebugPrintAt(screen, title, screenWidth/2-len(title)*4, 20)
-	// Draw the dice (square outline in center)
-	diceSize := 100 // Size of the dice square
-	diceX := float32(screenWidth/2 - diceSize/2)
-	diceY := float32(screenHeight/2 - diceSize/2)
-	selectedDice := 20 // Change this value dynamically based on selection
-	DrawDiceShape(screen, diceX, diceY, float32(diceSize), selectedDice, 3, color.White)
+	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, color.White)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
-	// Set the window size, 800x600 as a default
+	// Set window size
 	return 800, 600
 }
 
 func main() {
-	// Create the game object
+	// Initialize the game object
 	game := &Game{}
-	diceType := 8 // Rolling a d20
-	result := RollDice(diceType)
-	fmt.Println("Rolled a d20:", result)
 
-	// Initialize the game and set the window title to "{TITLE}"
+	// Set the initial dice type (default to d20)
+	game.selectedDice = 20
+
+	// Start the game
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}

@@ -21,9 +21,8 @@ Golang v.1.23.6 or higher
 
 # Overview:
 
-## Section 1: The Options Screen
-
-### 🔹 Dice Type Selection:
+## Section 1: The Options Screen ✅
+### 🔹 Dice Type Selection: ✅
 
     Provide six dice options on the left side of the screen:
         🎲 1d4
