@@ -19,20 +19,7 @@ func (g *Game) Update() error {
 	// Handling input (button clicks)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
-		switch {
-		case mouseX < 150 && mouseY > 50 && mouseY < 90:
-			g.selectedDice = 4 // 1d4 button
-		case mouseX < 150 && mouseY > 100 && mouseY < 140:
-			g.selectedDice = 6 // 1d6 button
-		case mouseX < 150 && mouseY > 150 && mouseY < 190:
-			g.selectedDice = 8 // 1d8 button
-		case mouseX < 150 && mouseY > 200 && mouseY < 240:
-			g.selectedDice = 10 // 1d10 button
-		case mouseX < 150 && mouseY > 250 && mouseY < 290:
-			g.selectedDice = 20 // 1d20 button
-		case mouseX < 150 && mouseY > 300 && mouseY < 340:
-			g.selectedDice = 100 // 1d100 button
-		}
+		g.diceSwitchingMouseLogic(mouseX, mouseY)
 	}
 	return nil
 }
@@ -51,7 +38,6 @@ func RollDice(sides int) int {
 func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidth float32, color color.Color) {
 	scaleFactor := float32(1.5)
 	scaledSize := size * scaleFactor
-
 	switch sides {
 	case 4: // d4 - Triangle
 		DrawTriangle(screen, x, y, scaledSize, lineWidth, color)
