@@ -6,31 +6,31 @@ import (
 	"image/color"
 )
 
-// Draws a triangle given 3 distinct points, and a specified color
+// DrawTriangle Draws a triangle given 3 distinct points, and a specified color
 func DrawTriangle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeLine(screen, x, y+size, x+size/2, y, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size/2, y, x+size, y+size, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size, y+size, x, y+size, lineWidth, color, true)
 }
 
-// Draws a square given 4 distinct points, and a specified color
-func drawSquare(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawSquare Draws a square given 4 distinct points, and a specified color
+func DrawSquare(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeLine(screen, x, y, x+size, y, lineWidth, color, true)
 	vector.StrokeLine(screen, x, y+size, x+size, y+size, lineWidth, color, true)
 	vector.StrokeLine(screen, x, y, x, y+size, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size, y, x+size, y+size, lineWidth, color, true)
 }
 
-// Draws a diamond given 4 distinct points, and a specified color
-func drawDiamond(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawDiamond Draws a diamond given 4 distinct points, and a specified color
+func DrawDiamond(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeLine(screen, x+size/2, y, x, y+size/2, lineWidth, color, true)
 	vector.StrokeLine(screen, x, y+size/2, x+size/2, y+size, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size/2, y+size, x+size, y+size/2, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size, y+size/2, x+size/2, y, lineWidth, color, true)
 }
 
-// Draws a pentagon given 5 distinct points, and a specified color
-func drawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawPentagon Draws a pentagon given 5 distinct points, and a specified color
+func DrawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeLine(screen, x+size/2, y, x, y+size/3, lineWidth, color, true)
 	vector.StrokeLine(screen, x, y+size/3, x+size/4, y+size, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size/4, y+size, x+3*size/4, y+size, lineWidth, color, true)
@@ -38,8 +38,8 @@ func drawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color col
 	vector.StrokeLine(screen, x+size, y+size/3, x+size/2, y, lineWidth, color, true)
 }
 
-// Draws a hexagon given 6 distinct points, and a specified color
-func drawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawHexagon Draws a hexagon given 6 distinct points, and a specified color
+func DrawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeLine(screen, x+size/4, y, x+3*size/4, y, lineWidth, color, true)
 	vector.StrokeLine(screen, x+3*size/4, y, x+size, y+size/2, lineWidth, color, true)
 	vector.StrokeLine(screen, x+size, y+size/2, x+3*size/4, y+size, lineWidth, color, true)
@@ -48,8 +48,12 @@ func drawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color colo
 	vector.StrokeLine(screen, x, y+size/2, x+size/4, y, lineWidth, color, true)
 }
 
-// Processes the mouse input logic for whenever the user clicks one of the buttons
-func (g *Game) diceSwitchingMouseLogic(mouseX, mouseY int) {
+func DrawCircle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+	vector.StrokeCircle(screen, x*CircleDrawingXModifier, y*CircleDrawingYModifier, size/2, lineWidth, color, true)
+}
+
+// DiceSwitchingMouseLogic Processes the mouse input logic for whenever the user clicks one of the buttons
+func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 	if mouseX < 150 {
 		switch {
 		case mouseY > 50 && mouseY < 90:

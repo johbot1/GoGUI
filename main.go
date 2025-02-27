@@ -18,7 +18,7 @@ func (g *Game) Update() error {
 	// Handling input (button clicks)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
-		g.diceSwitchingMouseLogic(mouseX, mouseY)
+		g.DiceSwitchingMouseLogic(mouseX, mouseY)
 	}
 	return nil
 }
@@ -30,15 +30,15 @@ func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidt
 	case 4: // d4 - Triangle
 		DrawTriangle(screen, x, y, scaledSize, lineWidth, color)
 	case 6: // d6 - Square
-		drawSquare(screen, x, y, scaledSize, lineWidth, color)
+		DrawSquare(screen, x, y, scaledSize, lineWidth, color)
 	case 8: // d8 - Diamond
-		drawDiamond(screen, x, y, scaledSize, lineWidth, color)
+		DrawDiamond(screen, x, y, scaledSize, lineWidth, color)
 	case 10: // d10 - Pentagon
-		drawPentagon(screen, x, y, scaledSize, lineWidth, color)
+		DrawPentagon(screen, x, y, scaledSize, lineWidth, color)
 	case 20: // d20 - Hexagon
-		drawHexagon(screen, x, y, scaledSize, lineWidth, color)
+		DrawHexagon(screen, x, y, scaledSize, lineWidth, color)
 	case 100: // d100 - Circle
-		//vector.DrawCircle(screen, x+scaledSize/2, y+scaledSize/2, scaledSize/2, color, true)
+		DrawCircle(screen, x, y, scaledSize, lineWidth, color)
 	}
 }
 
@@ -51,11 +51,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	diceSize := float32(screenWidth) * 0.3
 	lineWidth := float32(screenWidth) * 0.01
 
-	// Draw the buttons
+	// Draw the Dice Switching buttons
 	for i, buttonText := range Buttons {
 		buttonY := float32(50 + i*50)
-		vector.DrawFilledRect(screen, ButtonX, buttonY, float32(ButtonWidth), float32(ButtonHeight), ButtonColor, true)
-		ebitenutil.DebugPrintAt(screen, buttonText, int(ButtonX+20), int(buttonY+10))
+		vector.DrawFilledRect(screen, DiceSwitchingButtonXpos, buttonY,
+			float32(DiceSwitchingButtonWidth), float32(DiceSwitchingButtonHeight), DiceSwitchingButtonColor, true)
+		ebitenutil.DebugPrintAt(screen, buttonText, DiceSwitchingButtonTitle, int(buttonY+10))
 	}
 	//Title shown at the top of the screen
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
