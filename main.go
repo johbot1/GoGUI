@@ -58,6 +58,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			float32(DiceSwitchingButtonWidth), float32(DiceSwitchingButtonHeight), DiceSwitchingButtonColor, true)
 		ebitenutil.DebugPrintAt(screen, buttonText, DiceSwitchingButtonTitle, int(buttonY+10))
 	}
+
+	//Draw the Roll Button
+	vector.DrawFilledRect(screen, 330, 235, 150, 100, DiceRollingButtonColor, true)
 	//Title shown at the top of the screen
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
 	// Show the current dice selection (below buttons)
@@ -77,6 +80,8 @@ func main() {
 
 	// Set the initial dice type (default to d20)
 	game.selectedDice = 20
+
+	fmt.Println("Rolled dice!", RollDice(20))
 
 	// Start the game
 	if err := ebiten.RunGame(game); err != nil {

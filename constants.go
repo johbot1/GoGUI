@@ -9,6 +9,8 @@ import (
 // DiceSwitchingButtonColor Simply sets the background color of the rectangles behind each button
 var DiceSwitchingButtonColor = color.RGBA{R: 160, G: 155, B: 155, A: 255}
 
+var DiceRollingButtonColor = color.RGBA{R: 170, G: 175, B: 65, A: 255}
+
 // DiceSwitchingButtonXpos specifies the X positional value of a button
 const DiceSwitchingButtonXpos = float32(20)
 const (
