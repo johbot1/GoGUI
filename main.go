@@ -71,14 +71,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll"), 65, 475)
 
 	//Title shown at the top of the screen
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), screenWidth/2-50, screenHeight-580)
 
 	// Show the current dice selection (below buttons)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), int(screenWidth/2-50), int(screenHeight-50))
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), screenWidth/2-50, screenHeight-50)
 
 	// Show the result of the dice roll (if available)
 	if rollResult > 0 {
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll Result: %d", rollResult), int(screenWidth/2-50), int(screenHeight/2-50))
+		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll Result: %d", rollResult), screenWidth/2-50, screenHeight/2-50)
 	}
 	// Draw the selected dice
 	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, color.White)
