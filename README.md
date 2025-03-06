@@ -41,14 +41,14 @@ Golang v.1.23.6 or higher
         🔴 Red Lines
     The background remains black at all times.
 
-### 🔹 Roll Button:
+### 🔹 Roll Button: ✅
 
     A large rectangular button below the dice labeled "ROLL".
     Clicking this button will trigger the dice roll animation and display the result.
 
 ## Section 2: The Visual Screen
 
-### 🎲 Dice Representation:
+### 🎲 Dice Representation: ✅
 
     The dice is drawn in a simple wireframe style (blocky, geometric).
     The selected dice type determines the shape.
@@ -60,7 +60,7 @@ Golang v.1.23.6 or higher
         A random result is selected and displayed above the dice.
         The dice momentarily fades out and back in to indicate the roll is finished.
 
-### 🎲 Result Display:
+### 🎲 Result Display: ✅
 
     The rolled number appears above the dice in large, clear text.
 
