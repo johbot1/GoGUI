@@ -9,6 +9,8 @@ import (
 	"log"
 )
 
+var rollResult int
+
 type Game struct {
 	selectedDice int // Holds the current dice selection (1d4, 1d6, etc.)
 }
@@ -18,6 +20,11 @@ func (g *Game) Update() error {
 	// Handling input (button clicks)
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
+		// Check if the mouse click is within the Roll Dice button bounds
+		if mouseX >= 330 && mouseX <= 480 && mouseY >= 235 && mouseY <= 335 {
+			// Roll the dice when the button is clicked
+			g.RollDiceAndDisplayResult()
+		}
 		g.DiceSwitchingMouseLogic(mouseX, mouseY)
 	}
 	return nil
@@ -53,26 +60,38 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	// Draw the Dice Switching buttons
 	for i, buttonText := range Buttons {
-		buttonY := float32(50 + i*50)
+		buttonY := float32(ButtonPlacementModifier + i*ButtonPlacementModifier)
 		vector.DrawFilledRect(screen, DiceSwitchingButtonXpos, buttonY,
 			float32(DiceSwitchingButtonWidth), float32(DiceSwitchingButtonHeight), DiceSwitchingButtonColor, true)
 		ebitenutil.DebugPrintAt(screen, buttonText, DiceSwitchingButtonTitle, int(buttonY+10))
 	}
 
 	//Draw the Roll Button
-	vector.DrawFilledRect(screen, 330, 235, 150, 100, DiceRollingButtonColor, true)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll"), 390, 275)
+	vector.DrawFilledRect(screen, 20, 450, 120, 80, DiceRollingButtonColor, true)
+	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll"), 65, 475)
+
 	//Title shown at the top of the screen
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), int(screenWidth/2-50), int(screenHeight-580))
+
 	// Show the current dice selection (below buttons)
 	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), int(screenWidth/2-50), int(screenHeight-50))
 
+	// Show the result of the dice roll (if available)
+	if rollResult > 0 {
+		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll Result: %d", rollResult), int(screenWidth/2-50), int(screenHeight/2-50))
+	}
+	// Draw the selected dice
 	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, color.White)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	// Set window size
 	return 800, 600
+}
+
+func (g *Game) RollDiceAndDisplayResult() {
+	// Roll the selected dice
+	rollResult = RollDice(g.selectedDice)
 }
 
 func main() {
