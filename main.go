@@ -32,8 +32,8 @@ func LoadEmbeddedFont() font.Face {
 	}
 
 	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
-		Size:    24, // Adjust font size
-		DPI:     72,
+		Size:    FontSize, // Adjust font size
+		DPI:     FontDPI,
 		Hinting: font.HintingFull,
 	})
 	if err != nil {
@@ -82,7 +82,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	//Dice sizing parameters
 	diceX := float32(screenWidth)/2 - 180
-	diceY := float32(screenHeight)/2 - 200
+	diceY := float32(screenHeight)/2 - 180
 	diceSize := float32(screenWidth) * 0.3
 	lineWidth := float32(screenWidth) * 0.01
 
@@ -95,20 +95,44 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	}
 
+	// Draw multiplier buttons (x1, x2, x3, x4)
+	newButtons := []string{"x1", "x2", "x3", "x4"}
+	for i, btnLabel := range newButtons {
+		btnY := MultiplierButtonYStart + float32(i)*MultiplierButtonSpacing
+		// Draw the button background
+		vector.DrawFilledRect(screen, MultiplierButtonX, btnY, MultiplierButtonWidth, MultiplierButtonHeight, multiplierButtonColor, true)
+		// Draw the button label; adjust the x/y offsets as needed for centering
+		text.Draw(screen, btnLabel, gameFont, int(MultiplierButtonX+40), int(btnY+28), color.White)
+	}
+
+	// Draw color buttons
+	rightButtonX := float32(screenWidth - 140) // Position on the right side
+
+	// Draw the right-side buttons
+	for i, btnColor := range buttonColors {
+		btnY := RightButtonYStart + float32(i)*(RightButtonHeight+RightButtonSpacing)
+		vector.DrawFilledRect(screen, rightButtonX, btnY, RightButtonWidth, RightButtonHeight, btnColor, true)
+
+		// Draw an 'X' on the last button (white button)
+		if i == 3 {
+			text.Draw(screen, "X", gameFont, int(rightButtonX+40), int(btnY+60), color.RGBA{255, 0, 0, 255}) // Red 'X'
+		}
+	}
+
 	// Draw the "Roll" button with larger text
-	vector.DrawFilledRect(screen, RollButtonXpos, RollButtonYpos, 120, 80, DiceRollingButtonColor, true)
+	vector.DrawFilledRect(screen, RollButtonXpos, RollButtonYpos, RollButtonWidth, RollButtonHeight, DiceRollingButtonColor, true)
 	text.Draw(screen, "Roll", gameFont, RollButtonTextXpos, RollButtonTextYpos, color.White)
 
 	//Title shown at the top of the screen
-	text.Draw(screen, "Dice Roll Dice", gameFont, screenWidth/2-50, screenHeight-580, color.White)
+	text.Draw(screen, "Dice Roll Dice", gameFont, screenWidth/2-75, screenHeight-570, color.White)
 
 	// Show the current dice selection (below buttons)
-	text.Draw(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), gameFont, int(screenWidth/2-50), int(screenHeight-50), color.White)
+	text.Draw(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), gameFont, int(screenWidth/2-100), int(screenHeight-530), color.White)
 
 	// Show the result of the dice roll (if available)
 	if rollResult > 0 {
 		// Display the roll result
-		text.Draw(screen, fmt.Sprintf("Roll Result: %d", rollResult), gameFont, screenWidth/2-50, screenHeight/2-50, color.White)
+		text.Draw(screen, fmt.Sprintf("Roll Result: %d", rollResult), gameFont, screenWidth/2-75, screenHeight/2+250, color.White)
 
 	}
 	// Draw the selected dice
