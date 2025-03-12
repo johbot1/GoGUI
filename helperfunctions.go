@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image/color"
@@ -55,6 +56,7 @@ func DrawCircle(screen *ebiten.Image, x, y, size, lineWidth float32, color color
 
 // DiceSwitchingMouseLogic Processes the mouse input logic for whenever the user clicks one of the buttons
 func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
+	//Dice Switching Logic
 	if mouseX < 150 {
 		switch {
 		case mouseY > 50 && mouseY < 90:
@@ -77,10 +79,32 @@ func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 			rollResult = 0
 		}
 	}
-	// Handle the Roll Dice button (button at the bottom-left)
+	// Roll Dice Logic
 	if mouseX >= 20 && mouseX <= 140 && mouseY >= 490 && mouseY <= 600 {
 		// Roll the dice when the "Roll Dice" button is clicked
 		g.RollDiceAndDisplayResult()
+	}
+}
+
+func (g *Game) ColorSwitchingMouseLogic(mouseX, mouseY int) {
+	// Check mouse click for each color button
+	switch {
+	case mouseX > 500 && mouseX < 600 && mouseY > 100 && mouseY < 200:
+		// Red button
+		fmt.Println("Clicked on Red button")
+		g.diceColor = buttonColors[0] // Red color
+	case mouseX > 500 && mouseX < 600 && mouseY > 220 && mouseY < 320:
+		// Green button
+		fmt.Println("Clicked on Green button")
+		g.diceColor = buttonColors[1] // Green color
+	case mouseX > 500 && mouseX < 600 && mouseY > 340 && mouseY < 440:
+		// Blue button
+		fmt.Println("Clicked on Blue button")
+		g.diceColor = buttonColors[2] // Blue color
+	case mouseX > 500 && mouseX < 600 && mouseY > 460 && mouseY < 560:
+		// Reset button (White with Red X)
+		fmt.Println("Clicked on Reset button")
+		g.diceColor = buttonColors[3] // Reset to white
 	}
 }
 
