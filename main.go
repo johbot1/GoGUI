@@ -96,8 +96,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	}
 
 	// Draw the "Roll" button with larger text
-	vector.DrawFilledRect(screen, 20, 450, 120, 80, DiceRollingButtonColor, true)
-	text.Draw(screen, "Roll", gameFont, 65, 490, color.White)
+	vector.DrawFilledRect(screen, DiceRollButtonXpos, DiceRollButtonYpos, 120, 80, DiceRollingButtonColor, true)
+	text.Draw(screen, "Roll", gameFont, DiceRollButtonTextXpos, DiceRollButtonTextYpos, color.White)
 
 	//Title shown at the top of the screen
 	text.Draw(screen, "Dice Roll Dice", gameFont, screenWidth/2-50, screenHeight-580, color.White)
