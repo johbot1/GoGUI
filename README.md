@@ -53,12 +53,9 @@ Golang v.1.23.6 or higher
     The dice is drawn in a simple wireframe style (blocky, geometric).
     The selected dice type determines the shape.
 
-### 🎲 Rolling Animation:
+### 🎲 Multiple Dice
 
-    When the roll button is clicked:
-        The dice wobbles or rotates slightly before stopping.
-        A random result is selected and displayed above the dice.
-        The dice momentarily fades out and back in to indicate the roll is finished.
+    Allow the user to roll multiple die (i.e. 2d10, 4d6, etc)
 
 ### 🎲 Result Display: ✅
 
