@@ -19,6 +19,10 @@ const (
 	CircleDrawingXModifier    = 1.87
 	CircleDrawingYModifier    = 2.8
 	ButtonPlacementModifier   = 50
+	DiceRollButtonXpos        = 20
+	DiceRollButtonYpos        = 500
+	DiceRollButtonTextXpos    = 65
+	DiceRollButtonTextYpos    = 550
 )
 
 // Buttons Labels for the buttons (dice options)
