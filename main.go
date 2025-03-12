@@ -21,7 +21,8 @@ var embeddedFont []byte
 var gameFont font.Face
 
 type Game struct {
-	selectedDice int // Holds the current dice selection (1d4, 1d6, etc.)
+	selectedDice int        // Holds the current dice selection (1d4, 1d6, etc.)
+	diceColor    color.RGBA // Holds the current color for the dice lines
 }
 
 // LoadEmbeddedFont loads the font from the embedded binary
@@ -43,8 +44,7 @@ func LoadEmbeddedFont() font.Face {
 }
 
 func (g *Game) Update() error {
-	// Game logic will go here later
-	// Handling input (button clicks)
+	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
 		// Check if the mouse click is within the Roll Dice button bounds
@@ -52,7 +52,11 @@ func (g *Game) Update() error {
 			// Roll the dice when the button is clicked
 			g.RollDiceAndDisplayResult()
 		}
+		//Handles Dice Switching
 		g.DiceSwitchingMouseLogic(mouseX, mouseY)
+
+		//Handles color Switching
+		g.ColorSwitchingMouseLogic(mouseX, mouseY)
 	}
 	return nil
 }
