@@ -87,21 +87,22 @@ func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 }
 
 func (g *Game) ColorSwitchingMouseLogic(mouseX, mouseY int) {
+	fmt.Println("CURRENT MOUSE POSITION: ", mouseX, mouseY)
 	// Check mouse click for each color button
 	switch {
-	case mouseX > 500 && mouseX < 600 && mouseY > 100 && mouseY < 200:
+	case mouseX > 650 && mouseX < 800 && mouseY > 100 && mouseY < 200:
 		// Red button
 		fmt.Println("Clicked on Red button")
 		g.diceColor = buttonColors[0] // Red color
-	case mouseX > 500 && mouseX < 600 && mouseY > 220 && mouseY < 320:
+	case mouseX > 650 && mouseX < 800 && mouseY > 220 && mouseY < 320:
 		// Green button
 		fmt.Println("Clicked on Green button")
 		g.diceColor = buttonColors[1] // Green color
-	case mouseX > 500 && mouseX < 600 && mouseY > 340 && mouseY < 440:
+	case mouseX > 650 && mouseX < 800 && mouseY > 340 && mouseY < 440:
 		// Blue button
 		fmt.Println("Clicked on Blue button")
 		g.diceColor = buttonColors[2] // Blue color
-	case mouseX > 500 && mouseX < 600 && mouseY > 460 && mouseY < 560:
+	case mouseX > 650 && mouseX < 800 && mouseY > 460 && mouseY < 560:
 		// Reset button (White with Red X)
 		fmt.Println("Clicked on Reset button")
 		g.diceColor = buttonColors[3] // Reset to white
