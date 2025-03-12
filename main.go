@@ -1,18 +1,45 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
-	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image/color"
 	"log"
+
+	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/text"
+	"github.com/hajimehoshi/ebiten/v2/vector"
+	"golang.org/x/image/font"
+	"golang.org/x/image/font/opentype"
 )
 
+// Globals
 var rollResult int
+
+//go:embed assets/Draconis-JRw6B.ttf
+var embeddedFont []byte
+var gameFont font.Face
 
 type Game struct {
 	selectedDice int // Holds the current dice selection (1d4, 1d6, etc.)
+}
+
+// LoadEmbeddedFont loads the font from the embedded binary
+func LoadEmbeddedFont() font.Face {
+	tt, err := opentype.Parse(embeddedFont)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    24, // Adjust font size
+		DPI:     72,
+		Hinting: font.HintingFull,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	return face
 }
 
 func (g *Game) Update() error {
@@ -52,6 +79,7 @@ func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidt
 func (g *Game) Draw(screen *ebiten.Image) {
 	// Screen dimensions
 	screenWidth, screenHeight := screen.Size()
+
 	//Dice sizing parameters
 	diceX := float32(screenWidth)/2 - 180
 	diceY := float32(screenHeight)/2 - 200
@@ -63,22 +91,25 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		buttonY := float32(ButtonPlacementModifier + i*ButtonPlacementModifier)
 		vector.DrawFilledRect(screen, DiceSwitchingButtonXpos, buttonY,
 			float32(DiceSwitchingButtonWidth), float32(DiceSwitchingButtonHeight), DiceSwitchingButtonColor, true)
-		ebitenutil.DebugPrintAt(screen, buttonText, DiceSwitchingButtonTitle, int(buttonY+10))
+		text.Draw(screen, buttonText, gameFont, DiceSwitchingButtonTitle, int(buttonY+25), color.White)
+
 	}
 
-	//Draw the Roll Button
+	// Draw the "Roll" button with larger text
 	vector.DrawFilledRect(screen, 20, 450, 120, 80, DiceRollingButtonColor, true)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll"), 65, 475)
+	text.Draw(screen, "Roll", gameFont, 65, 490, color.White)
 
 	//Title shown at the top of the screen
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Dice Roll Dice"), screenWidth/2-50, screenHeight-580)
+	text.Draw(screen, "Dice Roll Dice", gameFont, screenWidth/2-50, screenHeight-580, color.White)
 
 	// Show the current dice selection (below buttons)
-	ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), screenWidth/2-50, screenHeight-50)
+	text.Draw(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), gameFont, int(screenWidth/2-50), int(screenHeight-50), color.White)
 
 	// Show the result of the dice roll (if available)
 	if rollResult > 0 {
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("Roll Result: %d", rollResult), screenWidth/2-50, screenHeight/2-50)
+		// Display the roll result
+		text.Draw(screen, fmt.Sprintf("Roll Result: %d", rollResult), gameFont, screenWidth/2-50, screenHeight/2-50, color.White)
+
 	}
 	// Draw the selected dice
 	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, color.White)
@@ -95,6 +126,9 @@ func (g *Game) RollDiceAndDisplayResult() {
 }
 
 func main() {
+	//Load in font before running the game
+	gameFont = LoadEmbeddedFont()
+
 	// Initialize the game object
 	game := &Game{}
 
