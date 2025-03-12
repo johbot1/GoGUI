@@ -78,7 +78,7 @@ func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 		}
 	}
 	// Handle the Roll Dice button (button at the bottom-left)
-	if mouseX >= 20 && mouseX <= 140 && mouseY >= 450 && mouseY <= 530 {
+	if mouseX >= 20 && mouseX <= 140 && mouseY >= 490 && mouseY <= 600 {
 		// Roll the dice when the "Roll Dice" button is clicked
 		g.RollDiceAndDisplayResult()
 	}
