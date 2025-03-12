@@ -25,6 +25,15 @@ type Game struct {
 	diceColor    color.RGBA // Holds the current color for the dice lines
 }
 
+// NewGame initializes a new game with a default dice color
+func NewGame() *Game {
+	// Set default dice color to white (or any color you prefer)
+	return &Game{
+		selectedDice: 6,               // Default to a 6-sided die
+		diceColor:    buttonColors[3], // Default color is white
+	}
+}
+
 // LoadEmbeddedFont loads the font from the embedded binary
 func LoadEmbeddedFont() font.Face {
 	tt, err := opentype.Parse(embeddedFont)
@@ -43,6 +52,7 @@ func LoadEmbeddedFont() font.Face {
 	return face
 }
 
+// Update updates the program depending on the actions of the user
 func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
@@ -140,7 +150,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	}
 	// Draw the selected dice
-	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, color.White)
+	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, g.diceColor)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {

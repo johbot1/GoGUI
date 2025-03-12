@@ -33,7 +33,7 @@ Golang v.1.23.6 or higher
         🎲 1d100
     Only one dice type can be selected at a time.
 
-### 🔹 Color Scheme Selection:
+### 🔹 Color Scheme Selection: ✅
 
     On the right side, allow the user to select one of three line color options:
         🟢 Green Lines
