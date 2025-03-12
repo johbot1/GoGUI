@@ -12,10 +12,10 @@ var DiceRollingButtonColor = color.RGBA{R: 255, G: 26, B: 26, A: 255}
 var multiplierButtonColor = color.RGBA{80, 80, 80, 255} // Example color; adjust as desired
 
 var buttonColors = []color.RGBA{ // Define colors for the color buttons
-	{255, 0, 0, 255},     // Red
-	{0, 255, 0, 255},     // Green
-	{0, 0, 255, 255},     // Blue
-	{255, 255, 255, 255}, // White (for the X button)
+	{255, 0, 0, 255},     // 1) Red
+	{0, 255, 0, 255},     // 2) Green
+	{0, 0, 255, 255},     // 3) Blue
+	{255, 255, 255, 255}, // 4) White (for the X button)
 }
 
 // Constants applied to various parts of the code, grouped by their location
