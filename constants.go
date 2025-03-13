@@ -9,7 +9,7 @@ var DiceSwitchingButtonColor = color.RGBA{R: 160, G: 155, B: 155, A: 255}
 
 var DiceRollingButtonColor = color.RGBA{R: 255, G: 26, B: 26, A: 255}
 
-var multiplierButtonColor = color.RGBA{80, 80, 80, 255} // Example color; adjust as desired
+var multiplierButtonColor = color.RGBA{80, 80, 80, 255}
 
 var buttonColors = []color.RGBA{ // Define colors for the color buttons
 	{255, 0, 0, 255},     // 1) Red
@@ -30,6 +30,7 @@ const (
 	CircleDrawingXModifier  = 1.82
 	CircleDrawingYModifier  = 2.5
 	ButtonPlacementModifier = 50
+	DiceXYAdjustment        = 180
 	// Roll Dice ButtonParameters
 	RollButtonXpos     = 20
 	RollButtonYpos     = 500
@@ -40,17 +41,27 @@ const (
 	// Font Parameters
 	FontSize = 25
 	FontDPI  = FontSize * 3
-	//Multiple Dice Button Parameters
-	MultiplierButtonX       = float32(20)
-	MultiplierButtonYStart  = float32(350) // Start drawing below the dice selection buttons
-	MultiplierButtonWidth   = float32(120)
-	MultiplierButtonHeight  = float32(40)
-	MultiplierButtonSpacing = float32(50) // Vertical spacing between buttons
+	// Multiple Dice Control Parameters
+	DiceCountButtonYStart = float32(350) // Vertical start position for the buttons
+
+	DecrementButtonX      = float32(20)
+	DecrementButtonWidth  = float32(60) // Half of the original button width
+	DecrementButtonHeight = float32(40)
+
+	IncrementButtonX      = float32(20 + 60) // Starts after the decrement button
+	IncrementButtonWidth  = float32(60)
+	IncrementButtonHeight = float32(40)
+
+	DiceCountDisplayButtonX = float32(20)       // Same X as the others for alignment
+	DiceCountDisplayButtonY = float32(350 + 50) // Below the +/- buttons
+	DiceCountDisplayWidth   = float32(120)
+	DiceCountDisplayHeight  = float32(40)
+
 	//Color Changing Button Parameters
 	RightButtonYStart  = float32(100) // Start vertically around 100px from the top
-	RightButtonWidth   = float32(100) // Button width
-	RightButtonHeight  = float32(100) // Button height
-	RightButtonSpacing = float32(20)  // Space between buttons
+	ColorButtonWidth   = float32(100) // Button width
+	ColorButtonHeight  = float32(100) // Button height
+	ColorButtonSpacing = float32(20)  // Space between buttons
 
 )
 
