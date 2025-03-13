@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"image/color"
@@ -111,4 +112,24 @@ func (g *Game) ColorSwitchingMouseLogic(mouseX, mouseY int) {
 func RollDice(sides int) int {
 	// Generate a random number between 1 and the amount of sides for the dice selected
 	return rand.Intn(sides) + 1
+}
+
+// MultiplierSwitchingMouseLogic processes mouse input for the multiplier buttons
+func (g *Game) MultiplierSwitchingMouseLogic(mouseX, mouseY int) {
+	// Check for clicks on the decrement button
+	if mouseX >= int(DecrementButtonX) && mouseX <= int(DecrementButtonX+DecrementButtonWidth) &&
+		mouseY >= int(DiceCountButtonYStart) && mouseY <= int(DiceCountButtonYStart+DecrementButtonHeight) {
+		if g.selectedMultiplier > 1 {
+			g.selectedMultiplier--
+			rollResult = 0 // Reset roll result
+			fmt.Printf("Decremented dice count: %d\n", g.selectedMultiplier)
+		}
+	}
+
+	// Check for clicks on the increment button
+	if mouseX >= int(IncrementButtonX) && mouseX <= int(IncrementButtonX+IncrementButtonWidth) &&
+		mouseY >= int(DiceCountButtonYStart) && mouseY <= int(DiceCountButtonYStart+IncrementButtonHeight) {
+		g.selectedMultiplier++
+		fmt.Printf("Incremented dice count: %d\n", g.selectedMultiplier)
+	}
 }
