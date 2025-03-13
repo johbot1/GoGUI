@@ -3,15 +3,14 @@ package main
 import (
 	_ "embed"
 	"fmt"
-	"image/color"
-	"log"
-	"strconv"
-
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
+	"image/color"
+	"log"
+	"strconv"
 )
 
 // Globals
@@ -25,15 +24,17 @@ type Game struct {
 	selectedDice       int        // Holds the current dice selection (1d4, 1d6, etc.)
 	diceColor          color.RGBA // Holds the current color for the dice lines
 	selectedMultiplier int        // Holds current multiplier for the number of dice
+	multiplierClicked  bool       // Keep track of the mulitplier interaction
 }
 
-// NewGame initializes a new game with a default dice color
+// NewGame initializes a new game with a default dice selection, color, and multiplier
 func NewGame() *Game {
 	// Set default dice color to white (or any color you prefer)
 	return &Game{
 		selectedDice:       6,               // Default to a 6-sided die
 		diceColor:          buttonColors[3], // Default color is white
 		selectedMultiplier: 1,               // Default amount of dice to roll
+		multiplierClicked:  false,
 	}
 }
 
@@ -60,9 +61,9 @@ func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
-		fmt.Println("CURRENT POSITION: ", mouseX, mouseY)
+		fmt.Printf("Update: Mouse Button Just Pressed at X: %d, Y: %d\n", mouseX, mouseY) // ADD THIS LINE
 		// Check if the mouse click is within the Roll Dice button bounds
-		if mouseX >= 330 && mouseX <= 480 && mouseY >= 235 && mouseY <= 335 {
+		if mouseX >= RollDiceXStart && mouseX <= RollDiceXEnd && mouseY >= RollDiceYStart && mouseY <= RollDiceYEnd {
 			// Roll the dice when the button is clicked
 			g.RollDiceAndDisplayResult()
 		}
@@ -72,8 +73,12 @@ func (g *Game) Update() error {
 		//Handles color Switching
 		g.ColorSwitchingMouseLogic(mouseX, mouseY)
 
-		// Handles Multiplier Switching
-		g.MultiplierSwitchingMouseLogic(mouseX, mouseY)
+		if g.multiplierClicked {
+			g.multiplierClicked = false //Ensure its click behavior reset every time an update happens
+		} else {
+			g.MultiplierSwitchingMouseLogic(mouseX, mouseY)
+
+		}
 	}
 	return nil
 }
