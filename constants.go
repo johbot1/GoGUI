@@ -32,6 +32,10 @@ const (
 	ButtonPlacementModifier = 50
 	DiceXYAdjustment        = 180
 	// Roll Dice ButtonParameters
+	RollDiceXStart     = 330
+	RollDiceXEnd       = 480
+	RollDiceYStart     = 235
+	RollDiceYEnd       = 335
 	RollButtonXpos     = 20
 	RollButtonYpos     = 500
 	RollButtonTextXpos = 65
