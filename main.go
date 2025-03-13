@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"image/color"
 	"log"
+	"strconv"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
@@ -21,16 +22,18 @@ var embeddedFont []byte
 var gameFont font.Face
 
 type Game struct {
-	selectedDice int        // Holds the current dice selection (1d4, 1d6, etc.)
-	diceColor    color.RGBA // Holds the current color for the dice lines
+	selectedDice       int        // Holds the current dice selection (1d4, 1d6, etc.)
+	diceColor          color.RGBA // Holds the current color for the dice lines
+	selectedMultiplier int        // Holds current multiplier for the number of dice
 }
 
 // NewGame initializes a new game with a default dice color
 func NewGame() *Game {
 	// Set default dice color to white (or any color you prefer)
 	return &Game{
-		selectedDice: 6,               // Default to a 6-sided die
-		diceColor:    buttonColors[3], // Default color is white
+		selectedDice:       6,               // Default to a 6-sided die
+		diceColor:          buttonColors[3], // Default color is white
+		selectedMultiplier: 1,               // Default amount of dice to roll
 	}
 }
 
@@ -57,6 +60,7 @@ func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
+		fmt.Println("CURRENT POSITION: ", mouseX, mouseY)
 		// Check if the mouse click is within the Roll Dice button bounds
 		if mouseX >= 330 && mouseX <= 480 && mouseY >= 235 && mouseY <= 335 {
 			// Roll the dice when the button is clicked
@@ -67,6 +71,9 @@ func (g *Game) Update() error {
 
 		//Handles color Switching
 		g.ColorSwitchingMouseLogic(mouseX, mouseY)
+
+		// Handles Multiplier Switching
+		g.MultiplierSwitchingMouseLogic(mouseX, mouseY)
 	}
 	return nil
 }
@@ -95,8 +102,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	screenWidth, screenHeight := screen.Size()
 
 	//Dice sizing parameters
-	diceX := float32(screenWidth)/2 - 180
-	diceY := float32(screenHeight)/2 - 180
+	diceX := float32(screenWidth)/2 - DiceXYAdjustment
+	diceY := float32(screenHeight)/2 - DiceXYAdjustment
 	diceSize := float32(screenWidth) * 0.3
 	lineWidth := float32(screenWidth) * 0.01
 
@@ -109,24 +116,23 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	}
 
-	// Draw multiplier buttons (x1, x2, x3, x4)
-	newButtons := []string{"x1", "x2", "x3", "x4"}
-	for i, btnLabel := range newButtons {
-		btnY := MultiplierButtonYStart + float32(i)*MultiplierButtonSpacing
-		// Draw the button background
-		vector.DrawFilledRect(screen, MultiplierButtonX, btnY, MultiplierButtonWidth, MultiplierButtonHeight, multiplierButtonColor, true)
-		// Draw the button label; adjust the x/y offsets as needed for centering
-		text.Draw(screen, btnLabel, gameFont, int(MultiplierButtonX+40), int(btnY+28), color.White)
-	}
+	// Draw the decrement button (-)
+	vector.DrawFilledRect(screen, DecrementButtonX, DiceCountButtonYStart, DecrementButtonWidth, DecrementButtonHeight, multiplierButtonColor, true)
+	text.Draw(screen, "-", gameFont, int(DecrementButtonX+20), int(DiceCountButtonYStart+30), color.White)
+
+	// Draw the increment button (+)
+	vector.DrawFilledRect(screen, IncrementButtonX, DiceCountButtonYStart, IncrementButtonWidth, IncrementButtonHeight, multiplierButtonColor, true)
+	text.Draw(screen, "+", gameFont, int(IncrementButtonX+20), int(DiceCountButtonYStart+30), color.White)
+
+	// Draw the dice count display button
+	vector.DrawFilledRect(screen, DiceCountDisplayButtonX, DiceCountDisplayButtonY, DiceCountDisplayWidth, DiceCountDisplayHeight, multiplierButtonColor, true)
+	text.Draw(screen, strconv.Itoa(g.selectedMultiplier), gameFont, int(DiceCountDisplayButtonX+40), int(DiceCountDisplayButtonY+30), color.White)
 
 	// Draw color buttons
-	rightButtonX := float32(screenWidth - 140) // Position on the right side
-
-	// Draw the right-side buttons
+	rightButtonX := float32(screenWidth - (DiceXYAdjustment - 40)) // Position on the right side
 	for i, btnColor := range buttonColors {
-		btnY := RightButtonYStart + float32(i)*(RightButtonHeight+RightButtonSpacing)
-		vector.DrawFilledRect(screen, rightButtonX, btnY, RightButtonWidth, RightButtonHeight, btnColor, true)
-
+		btnY := RightButtonYStart + float32(i)*(ColorButtonHeight+ColorButtonSpacing)
+		vector.DrawFilledRect(screen, rightButtonX, btnY, ColorButtonWidth, ColorButtonHeight, btnColor, true)
 		// Draw an 'X' on the last button (white button)
 		if i == 3 {
 			text.Draw(screen, "X", gameFont, int(rightButtonX+40), int(btnY+60), color.RGBA{255, 0, 0, 255}) // Red 'X'
@@ -168,7 +174,7 @@ func main() {
 	gameFont = LoadEmbeddedFont()
 
 	// Initialize the game object
-	game := &Game{}
+	game := NewGame()
 
 	// Set the initial dice type (default to d20)
 	game.selectedDice = 20
