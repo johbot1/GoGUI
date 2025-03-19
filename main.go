@@ -31,7 +31,7 @@ type Game struct {
 func NewGame() *Game {
 	// Set default dice color to white (or any color you prefer)
 	return &Game{
-		selectedDice:       6,               // Default to a 6-sided die
+		selectedDice:       20,              // Default to a 6-sided die
 		diceColor:          buttonColors[3], // Default color is white
 		selectedMultiplier: 1,               // Default amount of dice to roll
 		multiplierClicked:  false,
@@ -61,7 +61,6 @@ func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
 		mouseX, mouseY := ebiten.CursorPosition()
-		fmt.Printf("Update: Mouse Button Just Pressed at X: %d, Y: %d\n", mouseX, mouseY) // ADD THIS LINE
 		// Check if the mouse click is within the Roll Dice button bounds
 		if mouseX >= RollDiceXStart && mouseX <= RollDiceXEnd && mouseY >= RollDiceYStart && mouseY <= RollDiceYEnd {
 			// Roll the dice when the button is clicked
@@ -180,11 +179,6 @@ func main() {
 
 	// Initialize the game object
 	game := NewGame()
-
-	// Set the initial dice type (default to d20)
-	game.selectedDice = 20
-
-	fmt.Println("Rolled dice!", RollDice(20))
 
 	// Start the game
 	if err := ebiten.RunGame(game); err != nil {
