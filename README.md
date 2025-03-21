@@ -63,4 +63,10 @@ Golang v.1.23.6 or higher
 
 ## Section 3: Fixes / Feedback
 
-(This section will be filled in after receiving feedback.)
+- Add git ignore + remove .idea files
+- Move roll to middle of each die
+  - BIGGER text
+- FIX FOR MULTIPLIER (and all button clicks)
+  - Get timer, see if active timer already, If NOT increment/decrement and start a timer,
+  - Else, ignore
+- Remove "X" from white color choice

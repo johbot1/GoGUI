@@ -15,6 +15,7 @@ import (
 
 // Globals
 var rollResult int
+var counter int
 
 //go:embed assets/Draconis-JRw6B.ttf
 var embeddedFont []byte
@@ -60,6 +61,8 @@ func LoadEmbeddedFont() font.Face {
 func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
+		counter++
+		log.Println(counter)
 		mouseX, mouseY := ebiten.CursorPosition()
 		// Check if the mouse click is within the Roll Dice button bounds
 		if mouseX >= RollDiceXStart && mouseX <= RollDiceXEnd && mouseY >= RollDiceYStart && mouseY <= RollDiceYEnd {
@@ -174,6 +177,7 @@ func (g *Game) RollDiceAndDisplayResult() {
 }
 
 func main() {
+	counter = 0
 	//Load in font before running the game
 	gameFont = LoadEmbeddedFont()
 
