@@ -49,11 +49,12 @@ func DrawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color colo
 	vector.StrokeLine(screen, x, y+size/2, x+size/4, y, lineWidth, color, true)
 }
 
+// DrawCircle Draws a circle to represent a d100
 func DrawCircle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeCircle(screen, x*CircleDrawingXModifier, y*CircleDrawingYModifier, size/2, lineWidth, color, true)
 }
 
-// DiceSwitchingMouseLogic Processes the mouse input logic for whenever the user clicks one of the buttons
+// DiceSwitchingMouseLogic Processes the mouse input logic for whenever the user clicks one of the dice buttons
 func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 	//Dice Switching Logic
 	if mouseX < 150 {
@@ -85,6 +86,7 @@ func (g *Game) DiceSwitchingMouseLogic(mouseX, mouseY int) {
 	}
 }
 
+// ColorSwitchingMouseLogic processes the mouse input logic for whenever the user clicks on a colored button
 func (g *Game) ColorSwitchingMouseLogic(mouseX, mouseY int) {
 	// Check mouse click for each color button
 	switch {
