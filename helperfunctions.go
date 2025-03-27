@@ -9,44 +9,81 @@ import (
 
 // DrawTriangle Draws a triangle given 3 distinct points, and a specified color; d4
 func DrawTriangle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
-	vector.StrokeLine(screen, x, y+size, x+size/2, y, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size/2, y, x+size, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size, y+size, x, y+size, lineWidth, color, true)
+	// Calculate triangle vertices for an equilateral triangle
+	x1, y1 := x+size/2, y    // Top vertex
+	x2, y2 := x, y+size      // Bottom-left
+	x3, y3 := x+size, y+size // Bottom-right
+
+	// Draw triangle edges
+	vector.StrokeLine(screen, x1, y1, x2, y2, lineWidth, color, true)
+	vector.StrokeLine(screen, x2, y2, x3, y3, lineWidth, color, true)
+	vector.StrokeLine(screen, x3, y3, x1, y1, lineWidth, color, true)
 }
 
 // DrawSquare Draws a square given 4 distinct points, and a specified color; d6
 func DrawSquare(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
-	vector.StrokeLine(screen, x, y, x+size, y, lineWidth, color, true)
-	vector.StrokeLine(screen, x, y+size, x+size, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x, y, x, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size, y, x+size, y+size, lineWidth, color, true)
+	// Calculate square corners
+	x1, y1 := x, y           // Top-left
+	x2, y2 := x+size, y      // Top-right
+	x3, y3 := x, y+size      // Bottom-left
+	x4, y4 := x+size, y+size // Bottom-right
+
+	// Draw square edges
+	vector.StrokeLine(screen, x1, y1, x2, y2, lineWidth, color, true)
+	vector.StrokeLine(screen, x2, y2, x4, y4, lineWidth, color, true)
+	vector.StrokeLine(screen, x4, y4, x3, y3, lineWidth, color, true)
+	vector.StrokeLine(screen, x3, y3, x1, y1, lineWidth, color, true)
 }
 
 // DrawDiamond Draws a diamond given 4 distinct points, and a specified color; d8
 func DrawDiamond(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
-	vector.StrokeLine(screen, x+size/2, y, x, y+size/2, lineWidth, color, true)
-	vector.StrokeLine(screen, x, y+size/2, x+size/2, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size/2, y+size, x+size, y+size/2, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size, y+size/2, x+size/2, y, lineWidth, color, true)
+	// Calculate diamond points
+	x1, y1 := x+size/2, y      // Top
+	x2, y2 := x, y+size/2      // Left
+	x3, y3 := x+size/2, y+size // Bottom
+	x4, y4 := x+size, y+size/2 // Right
+
+	// Draw diamond edges
+	vector.StrokeLine(screen, x1, y1, x2, y2, lineWidth, color, true)
+	vector.StrokeLine(screen, x2, y2, x3, y3, lineWidth, color, true)
+	vector.StrokeLine(screen, x3, y3, x4, y4, lineWidth, color, true)
+	vector.StrokeLine(screen, x4, y4, x1, y1, lineWidth, color, true)
 }
 
 // DrawPentagon Draws a pentagon given 5 distinct points, and a specified color; d10
 func DrawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
-	vector.StrokeLine(screen, x+size/2, y, x, y+size/3, lineWidth, color, true)
-	vector.StrokeLine(screen, x, y+size/3, x+size/4, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size/4, y+size, x+3*size/4, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+3*size/4, y+size, x+size, y+size/3, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size, y+size/3, x+size/2, y, lineWidth, color, true)
+	// Calculate pentagon points
+	x1, y1 := x+size/2, y        // Top
+	x2, y2 := x, y+size*0.4      // Upper Left
+	x3, y3 := x+size*0.2, y+size // Lower Left
+	x4, y4 := x+size*0.8, y+size // Lower Right
+	x5, y5 := x+size, y+size*0.4 // Upper Right
+
+	// Draw pentagon edges
+	vector.StrokeLine(screen, x1, y1, x2, y2, lineWidth, color, true)
+	vector.StrokeLine(screen, x2, y2, x3, y3, lineWidth, color, true)
+	vector.StrokeLine(screen, x3, y3, x4, y4, lineWidth, color, true)
+	vector.StrokeLine(screen, x4, y4, x5, y5, lineWidth, color, true)
+	vector.StrokeLine(screen, x5, y5, x1, y1, lineWidth, color, true)
 }
 
 // DrawHexagon Draws a hexagon given 6 distinct points, and a specified color; d20
 func DrawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
-	vector.StrokeLine(screen, x+size/4, y, x+3*size/4, y, lineWidth, color, true)
-	vector.StrokeLine(screen, x+3*size/4, y, x+size, y+size/2, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size, y+size/2, x+3*size/4, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+3*size/4, y+size, x+size/4, y+size, lineWidth, color, true)
-	vector.StrokeLine(screen, x+size/4, y+size, x, y+size/2, lineWidth, color, true)
-	vector.StrokeLine(screen, x, y+size/2, x+size/4, y, lineWidth, color, true)
+	// Calculate hexagon points
+	x1, y1 := x+size*0.25, y      // Top Left
+	x2, y2 := x+size*0.75, y      // Top Right
+	x3, y3 := x+size, y+size*0.5  // Right
+	x4, y4 := x+size*0.75, y+size // Bottom Right
+	x5, y5 := x+size*0.25, y+size // Bottom Left
+	x6, y6 := x, y+size*0.5       // Left
+
+	// Draw hexagon edges
+	vector.StrokeLine(screen, x1, y1, x2, y2, lineWidth, color, true)
+	vector.StrokeLine(screen, x2, y2, x3, y3, lineWidth, color, true)
+	vector.StrokeLine(screen, x3, y3, x4, y4, lineWidth, color, true)
+	vector.StrokeLine(screen, x4, y4, x5, y5, lineWidth, color, true)
+	vector.StrokeLine(screen, x5, y5, x6, y6, lineWidth, color, true)
+	vector.StrokeLine(screen, x6, y6, x1, y1, lineWidth, color, true)
 }
 
 // DrawCircle Draws a circle to represent a d100

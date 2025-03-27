@@ -57,6 +57,24 @@ func LoadEmbeddedFont() font.Face {
 	return face
 }
 
+// Function to load a font face with a specific size
+func LoadFontWithSize(fontData []byte, size float64) font.Face {
+	tt, err := opentype.Parse(fontData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	face, err := opentype.NewFace(tt, &opentype.FaceOptions{
+		Size:    size, // Size adjustment for roll result text
+		DPI:     FontDPI,
+		Hinting: font.HintingFull,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
+	return face
+}
+
 // Update updates the program depending on the actions of the user
 func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
@@ -152,12 +170,25 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Show the current dice selection (below buttons)
 	text.Draw(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), gameFont, int(screenWidth/2-100), int(screenHeight-530), color.White)
 
-	// Show the result of the dice roll (if available)
+	// Draw the result of the dice roll (with larger font)
 	if rollResult > 0 {
-		// Display the roll result
-		text.Draw(screen, fmt.Sprintf("Roll Result: %d", rollResult), gameFont, screenWidth/2-75, screenHeight/2+250, color.White)
+		// Load the larger font just for this text
+		largeFont := LoadFontWithSize(embeddedFont, 100) // Adjust size (72) as needed
 
+		// Convert number to string and measure its width
+		rollStr := fmt.Sprintf("%d", rollResult)
+		bounds := text.BoundString(largeFont, rollStr)
+		textWidth := bounds.Dx()  // Get width of rendered text
+		textHeight := bounds.Dy() // Get height of rendered text
+
+		// Center text on the screen
+		textX := screenWidth/2 - textWidth/2
+		textY := screenHeight/2 + textHeight/4 // Adjust Y slightly for centering
+
+		// Draw the roll number at the center using the larger font
+		text.Draw(screen, rollStr, largeFont, textX, textY, color.White)
 	}
+
 	// Draw the selected dice
 	DrawDiceShape(screen, diceX, diceY, diceSize, g.selectedDice, lineWidth, g.diceColor)
 }
