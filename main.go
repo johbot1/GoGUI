@@ -140,10 +140,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for i, btnColor := range buttonColors {
 		btnY := RightButtonYStart + float32(i)*(ColorButtonHeight+ColorButtonSpacing)
 		vector.DrawFilledRect(screen, rightButtonX, btnY, ColorButtonWidth, ColorButtonHeight, btnColor, true)
-		// Draw an 'X' on the last button (white button)
-		if i == 3 {
-			text.Draw(screen, "X", gameFont, int(rightButtonX+40), int(btnY+60), color.RGBA{255, 0, 0, 255}) // Red 'X'
-		}
 	}
 
 	// Draw the "Roll" button with larger text
