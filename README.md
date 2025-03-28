@@ -1,4 +1,4 @@
-# GoGUI
+# GoGUI ✅
 One of three Go! related projects for my final semester, this one to build a GUI.
 I'm really starting to not like coding.
 
