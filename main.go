@@ -257,8 +257,8 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 func (g *Game) RollDiceAndDisplayResult() {
 	for i := 0; i < g.selectedMultiplier; i++ {
 		// Roll the dice and store the result in the rollResults array
-		roll := rand.Intn(20) + 1 // Example: Roll a 20-sided die
-		g.rollResults[i] = roll   // Store the result at index i
+		roll := rand.Intn(g.selectedDice) + 1
+		g.rollResults[i] = roll // Store the result at index i
 	}
 
 	// Print statements to debug and confirm the dice roll results
