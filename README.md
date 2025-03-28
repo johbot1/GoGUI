@@ -66,7 +66,8 @@ Golang v.1.23.6 or higher
 - ✅ Add git ignore + remove .idea files
 - ✅ Move roll to middle of each die
   - ✅ BIGGER text
-- FIX FOR MULTIPLIER (and all button clicks)
-  - Get timer, see if active timer already, If NOT increment/decrement and start a timer,
-  - Else, ignore
+- ✅ FIX FOR MULTIPLIER (and all button clicks)
+  - ✅ Get timer, see if active timer already, If NOT increment/decrement and start a timer,
+  - ✅ Else, ignore
+  - Once multiplier is set, allow for multiple dice to be rolled
 - ✅Remove "X" from white color choice
