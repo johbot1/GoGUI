@@ -42,12 +42,14 @@ const (
 	RollButtonTextYpos = 550
 	RollButtonWidth    = 120
 	RollButtonHeight   = 80
+	RollFontSize       = 100
 	// Font Parameters
 	FontSize = 25
 	FontDPI  = FontSize * 3
 	// Multiple Dice Control Parameters
 	DiceCountButtonYStart = float32(350) // Vertical start position for the buttons
 
+	maxDice               = 5
 	DecrementButtonX      = float32(20)
 	DecrementButtonWidth  = float32(60) // Half of the original button width
 	DecrementButtonHeight = float32(40)
