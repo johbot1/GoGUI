@@ -61,6 +61,10 @@ const (
 	DiceCountDisplayWidth   = float32(120)
 	DiceCountDisplayHeight  = float32(40)
 
+	MultipleDiceCountYModifier       = float32(150)
+	MultipleDiceCountXModifier       = float32(50)
+	MultipleDiceCountSpacingModifier = float32(20)
+
 	//Color Changing Button Parameters
 	RightButtonYStart  = float32(100) // Start vertically around 100px from the top
 	ColorButtonWidth   = float32(100) // Button width
