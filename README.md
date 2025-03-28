@@ -53,7 +53,7 @@ Golang v.1.23.6 or higher
     The dice is drawn in a simple wireframe style (blocky, geometric).
     The selected dice type determines the shape.
 
-### 🎲 Multiple Dice
+### 🎲 Multiple Dice ✅
 
     Allow the user to roll multiple die (i.e. 2d10, 4d6, etc)
 
@@ -61,7 +61,7 @@ Golang v.1.23.6 or higher
 
     The rolled number appears above the dice in large, clear text.
 
-## Section 3: Fixes / Feedback
+## Section 3: Fixes / Feedback ✅
 
 - ✅ Add git ignore + remove .idea files
 - ✅ Move roll to middle of each die
@@ -69,5 +69,5 @@ Golang v.1.23.6 or higher
 - ✅ FIX FOR MULTIPLIER (and all button clicks)
   - ✅ Get timer, see if active timer already, If NOT increment/decrement and start a timer,
   - ✅ Else, ignore
-  - Once multiplier is set, allow for multiple dice to be rolled
+  - ✅ Once multiplier is set, allow for multiple dice to be rolled
 - ✅Remove "X" from white color choice
