@@ -207,7 +207,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	// Draw the result of the dice roll (with larger font)
 	// Load the larger font just for this text
-	largeFont := LoadFontWithSize(embeddedFont, 100) // Adjust size (72) as needed
+	largeFont := LoadFontWithSize(embeddedFont, RollFontSize)
 
 	// Convert number to string and measure its width
 	rollStr := fmt.Sprintf("%d", g.rollResults[0])
@@ -231,6 +231,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	for i := 1; i < g.selectedMultiplier; i++ {
 		// Each number will be spaced horizontally by 20px from the previous one
 		diceNumberStr := fmt.Sprintf("%d", i) // Use the index as the dice roll number
+		diceResultStr := fmt.Sprintf("%d", g.rollResults[i])
 		bounds := text.BoundString(gameFont, diceNumberStr)
 		textWidth := bounds.Dx() // Get width of rendered text
 
@@ -240,6 +241,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		// Draw the number as text
 		text.Draw(screen, diceNumberStr, gameFont, int(textX), int(textY), color.White)
+		text.Draw(screen, diceResultStr, gameFont, int(textX), int(textY+50), color.White)
 	}
 
 	// Draw the selected dice
