@@ -11,6 +11,7 @@ import (
 	"image/color"
 	"log"
 	"strconv"
+	"time"
 )
 
 // Globals
@@ -20,6 +21,12 @@ var counter int
 //go:embed assets/Draconis-JRw6B.ttf
 var embeddedFont []byte
 var gameFont font.Face
+
+// Array for multiple dice
+var rollResults []int
+
+// Global timer variable
+var lastActionTime time.Time
 
 type Game struct {
 	selectedDice       int        // Holds the current dice selection (1d4, 1d6, etc.)
@@ -79,26 +86,47 @@ func LoadFontWithSize(fontData []byte, size float64) font.Face {
 func (g *Game) Update() error {
 	// Handling mouse input for dice switching and color buttons
 	if ebiten.IsMouseButtonPressed(ebiten.MouseButtonLeft) {
-		counter++
-		log.Println(counter)
+		//counter++
+		//log.Println(counter)
 		mouseX, mouseY := ebiten.CursorPosition()
-		// Check if the mouse click is within the Roll Dice button bounds
-		if mouseX >= RollDiceXStart && mouseX <= RollDiceXEnd && mouseY >= RollDiceYStart && mouseY <= RollDiceYEnd {
-			// Roll the dice when the button is clicked
-			g.RollDiceAndDisplayResult()
+
+		// Convert mouseX, mouseY to float32 for comparison
+		fMouseX := float32(mouseX)
+		fMouseY := float32(mouseY)
+
+		// Get the current time
+		currentTime := time.Now()
+
+		// Check if the "+" button is clicked and if enough time has passed
+		if fMouseX >= IncrementButtonX && fMouseX <= IncrementButtonX+IncrementButtonWidth &&
+			fMouseY >= DiceCountButtonYStart && fMouseY <= DiceCountButtonYStart+IncrementButtonHeight {
+			if currentTime.Sub(lastActionTime) > time.Millisecond*500 { // 500ms threshold
+				// Increment only if the current multiplier is less than 5
+				if g.selectedMultiplier < 5 {
+					g.selectedMultiplier++
+				}
+				lastActionTime = currentTime
+			}
 		}
+
+		// Check if the "-" button is clicked and if enough time has passed
+		if fMouseX >= DecrementButtonX && fMouseX <= DecrementButtonX+DecrementButtonWidth &&
+			fMouseY >= DiceCountButtonYStart && fMouseY <= DiceCountButtonYStart+DecrementButtonHeight {
+			if currentTime.Sub(lastActionTime) > time.Millisecond*500 { // 500ms threshold
+				// Allow the decrement and reset the timer
+				if g.selectedMultiplier > 1 { // Ensure it doesn't go below 1
+					g.selectedMultiplier--
+				}
+				lastActionTime = currentTime
+			}
+		}
+
 		//Handles Dice Switching
 		g.DiceSwitchingMouseLogic(mouseX, mouseY)
 
 		//Handles color Switching
 		g.ColorSwitchingMouseLogic(mouseX, mouseY)
 
-		if g.multiplierClicked {
-			g.multiplierClicked = false //Ensure its click behavior reset every time an update happens
-		} else {
-			g.MultiplierSwitchingMouseLogic(mouseX, mouseY)
-
-		}
 	}
 	return nil
 }
@@ -187,6 +215,26 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		// Draw the roll number at the center using the larger font
 		text.Draw(screen, rollStr, largeFont, textX, textY, color.White)
+	}
+
+	// Draw additional dice numbers (based on multiplier)
+	// Calculate the position for the additional dice numbers (below the main die)
+	additionalDiceX := diceX
+	additionalDiceY := diceY + diceSize + MultipleDiceCountSpacingModifier // 20px spacing between the main die and additional dice numbers
+
+	// Draw the additional dice numbers
+	for i := 1; i < g.selectedMultiplier; i++ {
+		// Each number will be spaced horizontally by 20px from the previous one
+		diceNumberStr := fmt.Sprintf("%d", i) // Use the index as the dice roll number for demonstration
+		bounds := text.BoundString(gameFont, diceNumberStr)
+		textWidth := bounds.Dx() // Get width of rendered text
+
+		// Center the additional dice numbers below the main die
+		textX := additionalDiceX + float32(i)*(float32(textWidth)+MultipleDiceCountXModifier) // Spacing between numbers
+		textY := additionalDiceY + MultipleDiceCountYModifier
+
+		// Draw the number as text
+		text.Draw(screen, diceNumberStr, gameFont, int(textX), int(textY), color.White)
 	}
 
 	// Draw the selected dice
