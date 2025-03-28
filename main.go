@@ -260,11 +260,6 @@ func (g *Game) RollDiceAndDisplayResult() {
 		roll := rand.Intn(g.selectedDice) + 1
 		g.rollResults[i] = roll // Store the result at index i
 	}
-
-	// Print statements to debug and confirm the dice roll results
-	for i := 0; i < g.selectedMultiplier; i++ {
-		fmt.Printf("Dice %d Roll: %d\n", i+1, g.rollResults[i])
-	}
 }
 
 func main() {
