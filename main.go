@@ -248,7 +248,18 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 
 func (g *Game) RollDiceAndDisplayResult() {
 	// Roll the selected dice
-	rollResult = RollDice(g.selectedDice)
+	fmt.Println("Selected Dice: ", g.selectedDice)
+	fmt.Println("Selected Multiplier: ", g.selectedMultiplier)
+	if g.selectedMultiplier < 2 {
+		rollResult = RollDice(g.selectedDice)
+	} else if g.selectedMultiplier >= 2 {
+		rollResults = make([]int, g.selectedMultiplier) // Store multiple dice rolls
+		for i := 0; i < g.selectedMultiplier; i++ {
+			rollResults[i] = RollDice(g.selectedDice)
+			fmt.Println("Roll Result: ", rollResults[i])
+		}
+	}
+
 }
 
 func main() {
