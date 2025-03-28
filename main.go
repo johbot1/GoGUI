@@ -10,6 +10,7 @@ import (
 	"golang.org/x/image/font/opentype"
 	"image/color"
 	"log"
+	"math/rand"
 	"strconv"
 	"time"
 )
@@ -22,17 +23,15 @@ var counter int
 var embeddedFont []byte
 var gameFont font.Face
 
-// Array for multiple dice
-var rollResults []int
-
 // Global timer variable
 var lastActionTime time.Time
 
 type Game struct {
-	selectedDice       int        // Holds the current dice selection (1d4, 1d6, etc.)
-	diceColor          color.RGBA // Holds the current color for the dice lines
-	selectedMultiplier int        // Holds current multiplier for the number of dice
-	multiplierClicked  bool       // Keep track of the mulitplier interaction
+	selectedDice       int          // Holds the current dice selection (1d4, 1d6, etc.)
+	diceColor          color.RGBA   // Holds the current color for the dice lines
+	multiplierClicked  bool         // Keep track of the mulitplier interaction
+	selectedMultiplier int          // Holds current multiplier for the number of dice
+	rollResults        [maxDice]int // Array for multiple dice
 }
 
 // NewGame initializes a new game with a default dice selection, color, and multiplier
@@ -43,6 +42,14 @@ func NewGame() *Game {
 		diceColor:          buttonColors[3], // Default color is white
 		selectedMultiplier: 1,               // Default amount of dice to roll
 		multiplierClicked:  false,
+	}
+}
+
+// Initialize the rollResults array
+func (g *Game) Initialize() {
+	// Fill the rollResults array with 0s or reset it
+	for i := range g.rollResults {
+		g.rollResults[i] = 0
 	}
 }
 
@@ -199,23 +206,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	text.Draw(screen, fmt.Sprintf("Selected Dice: 1d%d", g.selectedDice), gameFont, int(screenWidth/2-100), int(screenHeight-530), color.White)
 
 	// Draw the result of the dice roll (with larger font)
-	if rollResult > 0 {
-		// Load the larger font just for this text
-		largeFont := LoadFontWithSize(embeddedFont, 100) // Adjust size (72) as needed
+	// Load the larger font just for this text
+	largeFont := LoadFontWithSize(embeddedFont, 100) // Adjust size (72) as needed
 
-		// Convert number to string and measure its width
-		rollStr := fmt.Sprintf("%d", rollResult)
-		bounds := text.BoundString(largeFont, rollStr)
-		textWidth := bounds.Dx()  // Get width of rendered text
-		textHeight := bounds.Dy() // Get height of rendered text
+	// Convert number to string and measure its width
+	rollStr := fmt.Sprintf("%d", g.rollResults[0])
+	bounds := text.BoundString(largeFont, rollStr)
+	textWidth := bounds.Dx()  // Get width of rendered text
+	textHeight := bounds.Dy() // Get height of rendered text
 
-		// Center text on the screen
-		textX := screenWidth/2 - textWidth/2
-		textY := screenHeight/2 + textHeight/4 // Adjust Y slightly for centering
+	// Center text on the screen
+	textX := screenWidth/2 - textWidth/2
+	textY := screenHeight/2 + textHeight/4 // Adjust Y slightly for centering
 
-		// Draw the roll number at the center using the larger font
-		text.Draw(screen, rollStr, largeFont, textX, textY, color.White)
-	}
+	// Draw the roll number at the center using the larger font
+	text.Draw(screen, rollStr, largeFont, textX, textY, color.White)
 
 	// Draw additional dice numbers (based on multiplier)
 	// Calculate the position for the additional dice numbers (below the main die)
@@ -225,7 +230,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Draw the additional dice numbers
 	for i := 1; i < g.selectedMultiplier; i++ {
 		// Each number will be spaced horizontally by 20px from the previous one
-		diceNumberStr := fmt.Sprintf("%d", i) // Use the index as the dice roll number for demonstration
+		diceNumberStr := fmt.Sprintf("%d", i) // Use the index as the dice roll number
 		bounds := text.BoundString(gameFont, diceNumberStr)
 		textWidth := bounds.Dx() // Get width of rendered text
 
@@ -246,20 +251,18 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return 800, 600
 }
 
+// This function handles rolling the dice and storing the results
 func (g *Game) RollDiceAndDisplayResult() {
-	// Roll the selected dice
-	fmt.Println("Selected Dice: ", g.selectedDice)
-	fmt.Println("Selected Multiplier: ", g.selectedMultiplier)
-	if g.selectedMultiplier < 2 {
-		rollResult = RollDice(g.selectedDice)
-	} else if g.selectedMultiplier >= 2 {
-		rollResults = make([]int, g.selectedMultiplier) // Store multiple dice rolls
-		for i := 0; i < g.selectedMultiplier; i++ {
-			rollResults[i] = RollDice(g.selectedDice)
-			fmt.Println("Roll Result: ", rollResults[i])
-		}
+	for i := 0; i < g.selectedMultiplier; i++ {
+		// Roll the dice and store the result in the rollResults array
+		roll := rand.Intn(20) + 1 // Example: Roll a 20-sided die
+		g.rollResults[i] = roll   // Store the result at index i
 	}
 
+	// Print statements to debug and confirm the dice roll results
+	for i := 0; i < g.selectedMultiplier; i++ {
+		fmt.Printf("Dice %d Roll: %d\n", i+1, g.rollResults[i])
+	}
 }
 
 func main() {
