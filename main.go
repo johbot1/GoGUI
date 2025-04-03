@@ -230,7 +230,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	// Draw the additional dice numbers
 	for i := 1; i < g.selectedMultiplier; i++ {
 		// Each number will be spaced horizontally by 20px from the previous one
-		diceNumberStr := fmt.Sprintf("%d", i) // Use the index as the dice roll number
+		diceNumberStr := fmt.Sprintf("%d", i+1) // Use the index as the dice roll number
 		diceResultStr := fmt.Sprintf("%d", g.rollResults[i])
 		bounds := text.BoundString(gameFont, diceNumberStr)
 		textWidth := bounds.Dx() // Get width of rendered text
