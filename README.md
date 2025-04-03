@@ -71,3 +71,5 @@ Golang v.1.23.6 or higher
   - ✅ Else, ignore
   - ✅ Once multiplier is set, allow for multiple dice to be rolled
 - ✅Remove "X" from white color choice
+-  Fix naming of the additional dice (+1)
+- REfactor the names to be more specific (Not DrawTriangle, DrawD)
