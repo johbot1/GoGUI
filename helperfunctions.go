@@ -7,8 +7,8 @@ import (
 	"math/rand"
 )
 
-// DrawTriangle Draws a triangle given 3 distinct points, and a specified color; d4
-func DrawTriangle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD4Dice Draws a triangle given 3 distinct points, and a specified color; d4
+func DrawD4Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	// Calculate triangle vertices for an equilateral triangle
 	x1, y1 := x+size/2, y    // Top vertex
 	x2, y2 := x, y+size      // Bottom-left
@@ -20,8 +20,8 @@ func DrawTriangle(screen *ebiten.Image, x, y, size, lineWidth float32, color col
 	vector.StrokeLine(screen, x3, y3, x1, y1, lineWidth, color, true)
 }
 
-// DrawSquare Draws a square given 4 distinct points, and a specified color; d6
-func DrawSquare(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD6Dice Draws a square given 4 distinct points, and a specified color; d6
+func DrawD6Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	// Calculate square corners
 	x1, y1 := x, y           // Top-left
 	x2, y2 := x+size, y      // Top-right
@@ -35,8 +35,8 @@ func DrawSquare(screen *ebiten.Image, x, y, size, lineWidth float32, color color
 	vector.StrokeLine(screen, x3, y3, x1, y1, lineWidth, color, true)
 }
 
-// DrawDiamond Draws a diamond given 4 distinct points, and a specified color; d8
-func DrawDiamond(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD8Dice Draws a diamond given 4 distinct points, and a specified color; d8
+func DrawD8Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	// Calculate diamond points
 	x1, y1 := x+size/2, y      // Top
 	x2, y2 := x, y+size/2      // Left
@@ -50,8 +50,8 @@ func DrawDiamond(screen *ebiten.Image, x, y, size, lineWidth float32, color colo
 	vector.StrokeLine(screen, x4, y4, x1, y1, lineWidth, color, true)
 }
 
-// DrawPentagon Draws a pentagon given 5 distinct points, and a specified color; d10
-func DrawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD10Dice Draws a pentagon given 5 distinct points, and a specified color; d10
+func DrawD10Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	// Calculate pentagon points
 	x1, y1 := x+size/2, y        // Top
 	x2, y2 := x, y+size*0.4      // Upper Left
@@ -67,8 +67,8 @@ func DrawPentagon(screen *ebiten.Image, x, y, size, lineWidth float32, color col
 	vector.StrokeLine(screen, x5, y5, x1, y1, lineWidth, color, true)
 }
 
-// DrawHexagon Draws a hexagon given 6 distinct points, and a specified color; d20
-func DrawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD20Dice Draws a hexagon given 6 distinct points, and a specified color; d20
+func DrawD20Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	// Calculate hexagon points
 	x1, y1 := x+size*0.25, y      // Top Left
 	x2, y2 := x+size*0.75, y      // Top Right
@@ -86,8 +86,8 @@ func DrawHexagon(screen *ebiten.Image, x, y, size, lineWidth float32, color colo
 	vector.StrokeLine(screen, x6, y6, x1, y1, lineWidth, color, true)
 }
 
-// DrawCircle Draws a circle to represent a d100
-func DrawCircle(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
+// DrawD100Dice Draws a circle to represent a d100
+func DrawD100Dice(screen *ebiten.Image, x, y, size, lineWidth float32, color color.Color) {
 	vector.StrokeCircle(screen, x*CircleDrawingXModifier, y*CircleDrawingYModifier, size/2, lineWidth, color, true)
 }
 

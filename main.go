@@ -143,17 +143,17 @@ func DrawDiceShape(screen *ebiten.Image, x, y, size float32, sides int, lineWidt
 	scaledSize := size * ScaleFactor
 	switch sides {
 	case 4: // d4 - Triangle
-		DrawTriangle(screen, x, y, scaledSize, lineWidth, color)
+		DrawD4Dice(screen, x, y, scaledSize, lineWidth, color)
 	case 6: // d6 - Square
-		DrawSquare(screen, x, y, scaledSize, lineWidth, color)
+		DrawD6Dice(screen, x, y, scaledSize, lineWidth, color)
 	case 8: // d8 - Diamond
-		DrawDiamond(screen, x, y, scaledSize, lineWidth, color)
+		DrawD8Dice(screen, x, y, scaledSize, lineWidth, color)
 	case 10: // d10 - Pentagon
-		DrawPentagon(screen, x, y, scaledSize, lineWidth, color)
+		DrawD10Dice(screen, x, y, scaledSize, lineWidth, color)
 	case 20: // d20 - Hexagon
-		DrawHexagon(screen, x, y, scaledSize, lineWidth, color)
+		DrawD20Dice(screen, x, y, scaledSize, lineWidth, color)
 	case 100: // d100 - Circle
-		DrawCircle(screen, x, y, scaledSize, lineWidth, color)
+		DrawD100Dice(screen, x, y, scaledSize, lineWidth, color)
 	}
 }
 
